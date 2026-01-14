@@ -1,87 +1,64 @@
-# RENT A CAR API
+# Rent A Car API 🚗
 
-### ERD:
+![Rent A Car API ERD](./erdRentACarAPI.png)
 
-![ERD](./erdRentACarAPI.png)
+Bu proje, araç kiralama süreçlerini yönetmek için geliştirilmiş, kapsamlı ve ölçeklenebilir bir **Backend API** çözümüdür. Node.js ve Express framework'ü kullanılarak, modern RESTful API standartlarına uygun şekilde tasarlanmıştır.
 
---- 
+## 🌟 Özellikler
 
-### Rent A Car Project 
+*   **Yetkilendirme & Kimlik Doğrulama (Auth):** JWT (JSON Web Token) tabanlı güvenli giriş/kayıt sistemi ve rol bazlı erişim kontrolü.
+*   **Araç Yönetimi (Cars):** Araç ekleme, güncelleme, silme ve detaylı listeleme işlemleri.
+*   **Rezervasyon Sistemi:** Tarih kontrolü ile çakışma önleyen akıllı rezervasyon oluşturma ve maliyet hesaplama.
+*   **Gelişmiş Filtreleme & Arama:** API üzerinden dinamik veri çekme (Sort, Pagination, Filter, Search) özellikleri.
+*   **Dokümantasyon:** Swagger UI ve Redoc ile otomatik oluşturulan güncel API dokümantasyonu.
+*   **E-posta Bildirimleri:** `Nodemailer` entegrasyonu ile işlem bilgilendirmeleri.
+*   **Veri Bütünlüğü:** MongoDB ve Mongoose ile ilişkisel veri modelleme ve validasyonlar.
 
-- Customers;
-  - can select start and end date and see the list of available cars on selected dates.
-  - can not reserve cars which are reserved by other customers on selected time period.
-  - can choose a car on the list and reserve that car, but can not reserve more than one car on a selected time period,
-  - can see the list of their reservations including past ones.
-  - can list, create, read their reservations.
-  - can not update, delete reservations.
+## 🛠 Kullanılan Teknolojiler ve Yöntemler
 
-- Admins;
-  - can make CRUD operations on Car table,
-  - can make CRUD operations on Customer (User) table,
-  - can make CRUD operations on Reservation table,
+*   **Core:** Node.js, Express.js
+*   **Database:** MongoDB, Mongoose (ORM)
+*   **Authentication:** `jsonwebtoken` (JWT), `bcrypt` (Password Hashing - *implied*)
+*   **Documentation:** `swagger-autogen`, `swagger-ui-express`, `redoc-express`
+*   **Middleware:** `morgan` (Logging), `multer` (File Upload), Custom Error & Query Handlers
+*   **Utility:** `dotenv` (Environment Config), `nodemailer` (Email Service)
+*   **Architecture:** MVC (Model-View-Controller) benzeri katmanlı mimari (Controllers, Models, Routes).
 
-- It can be createdId and updatedId in Car model.
-- There will be searching, sorting and pagination capabilities on list views.
-
-
----
-
-###  Araç Kiralama Projesi
-
-* Müşteriler:
-  * Tarih aralığı belirtip müsait araç listeleyebilir.
-  * Rezerve edilmiş bir aracı, o tarihlerde rezerve edemez.
-  * Seçilen tarih aralığında araç rezerve edilebilir, ancak aynı tarih aralığında ikinci bir araç kiralayamaz.
-  * Rezervasyonlarını listeyebilir, ekleyebilir, okuyabilir.
-  * Rezervasyonlarını güncelleyemez, silemez.
-* Yöneticiler:
-  * Araba tablosu CRUD işlemleri
-  * Müşteri (User) tablosu CRUD işlemleri
-  * Reservasyon tablosu CRUD işlemleri
-
-* Araba tablosunda createdId ve updatedId olabilir.
-* Listeleme ekranlarında arama, sıralama ve sayfalama imkanları olacaktır.
-
----
-
-### Folder/File Structure:
+## 📂 Proje Yapısı
 
 ```
-    .env
-    .gitignore
-    index.js
-    readme.md
-    src/
-        configs/
-            dbConnection.js
-            swagger.json
-        controllers/
-            auth.js
-            car.js
-            reservation.js
-            token.js
-            user.js
-        helpers/
-            passwordEncrypt.js
-            sync.js
-        middlewares/
-            authentication.js
-            errorHandler.js
-            findSearchSortPage.js
-            logger.js
-            permissions.js
-        models/
-            car.js
-            reservation.js
-            token.js
-            user.js
-        routes/
-            auth.js
-            car.js
-            document.js
-            index.js
-            reservation.js
-            token.js
-            user.js
+/
+├── src/
+│   ├── configs/        # Veritabanı bağlantı ayarları
+│   ├── controllers/    # Request/Response mantığı (Auth, Car, Reservation, User)
+│   ├── middlewares/    # Ara yazılımlar (Auth, Logger, errorHandler, queryHandler)
+│   ├── models/         # Mongoose şemaları ve veritabanı modelleri
+│   ├── routes/         # API endpoint tanımları
+│   ├── helpers/        # Yardımcı fonksiyonlar (Email, Password Encrypt)
+│   └── errors/         # Özel hata sınıfları
+├── index.js            # Uygulama giriş noktası (Entry Point)
+├── swaggerAutogen.js   # Dokümantasyon oluşturma scripti
+└── vercel.json         # Deployment konfigürasyonu
 ```
+
+## 🚀 Kurulum
+
+Proje Node.js tabanlıdır ve çalıştırılmadan önce bağımlılıkların yüklenmesi gerekir.
+
+1.  Projeyi indirin (Clone).
+2.  Terminali açın ve proje dizinine gidin.
+3.  Gerekli paketleri yükleyin:
+    ```bash
+    npm install
+    ```
+4.  `.env` dosyasını oluşturun ve gerekli değişkenleri (DB_URL, SECRET_KEY, MAIL_SETTINGS vb.) tanımlayın.
+5.  Uygulamayı başlatın (Development Modu):
+    ```bash
+    npm run dev
+    ```
+    *Bu komut hem Swagger dokümantasyonunu günceller hem de sunucuyu başlatır.*
+
+6.  API Dokümantasyonuna erişim için tarayıcınızda:
+    *   **Swagger:** `http://localhost:8000/document/swagger`
+    *   **Redoc:** `http://localhost:8000/document/redoc`
+    *   **JSON:** `http://localhost:8000/document/json`
